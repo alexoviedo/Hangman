@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Hangman Ripoff</title>
+  <meta charset="UTF-8">
+  <link href="./style.css" rel="stylesheet">
+</head>
+
+<body>
+  <section class="top">
+    <h1>Hangman Ripoff</h1><br>
+    <div class="center">
+      {{#mode}}{{.}} Mode{{/mode}}
+    </div>
+    <div class="right">
+      {{#guess}}You have {{.}} guesses left!{{/guess}}
+      {{^mode}}
+      <br>
+      <form method="POST" action="/">
+        <p><input type="radio" name="mode" value="Easy"> Easy</p>
+        <p><input type="radio" name="mode" value="Normal"> Normal</p>
+        <p><input type="radio" name="mode" value="Hard"> Hard</p>
+        <p><input type="submit"></p>
+      </form>
+  </section>
+  {{/mode}}
+  {{#mode}}
+    {{#errorInput}}
+      <div class="errors">
+        <h3>{{msg}}</h3>
+      </div>
+    {{/errorInput}}
+    <div class="hangman">
+      {{#hangman}}{{{.}}}{{/hangman}}
+    </div>
+    <div class="game">
+      <form method="POST" action="/">
+        {{#solved}}
+          <div class="output">
+            {{#lost}}
+              <h3>You lost! Do you really want to put yourself through this again?</h3><input type="hidden" name="status" value="lost"><input type="submit">
+            {{/lost}}
+            {{^lost}}
+            <h3>Congratulations! YOU WIN!!! Click submit to put yourself through some fresh hell.</h3><input type="hidden" name="status" value="win">
+            <input type="submit">
+            {{/lost}}
+          </div>
+        {{/solved}}
+        {{^solved}}
+        <div>
+          <input class="letter_input" type="text" name="choice">
+          <input type="submit">
+        </div>
+        {{/solved}}
+      </form>
+    </div>
+  {{/mode}}
+  <div class="letters">
+    {{#mode}}
+      <p>Letters Guessed: {{guessedLetters}} {{^guessedLetters}} None
+        {{/guessedLetters}}
+      </p>
+    {{/mode}}
+  </div>
+</body>
+
+</html>
